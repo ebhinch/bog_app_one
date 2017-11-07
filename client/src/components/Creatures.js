@@ -28,7 +28,7 @@ class Creatures extends Component {
             <div>
                 <h1>Welcome to the Bog</h1>
                 {this.state.creatures.map(creature => (
-                    <Link key={creature._id} to={`/${creature._id}`}>
+                    <Link key={creature.id} to={`/${creature.id}`}>
                     <h4>Name: {creature.name}</h4>
                     <p>Description: {creature.description}</p>
                     </Link>
