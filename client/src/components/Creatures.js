@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import CreateCreatureForm from "./CreateCreatureForm"
 
 class Creatures extends Component {
     state = {
-        creatures: []
+        creatures: [],
+        showCreateForm: false
     }
 
     componentWillMount () {
@@ -14,6 +16,10 @@ class Creatures extends Component {
     getAllCreatures = async () => {
         const response = await axios.get("/api/creatures")
         this.setState({creatures: response.data})
+    }
+
+    toggleShowCreateForm = () => {
+        this.setState({ showCreateForm: !this.state.showCreateForm })
     }
 
 
@@ -27,6 +33,9 @@ class Creatures extends Component {
                     <p>Description: {creature.description}</p>
                     </Link>
                 ))}
+                <button onClick={this.toggleShowCreateForm}>Create New Creature</button>
+
+                {this.state.showCreateForm ? <CreateCreatureForm getAllCreatures={this.getAllCreatures} toggleShowCreateForm={this.toggleShowCreateForm}/> : null}
 
             </div>
         );
@@ -34,5 +43,3 @@ class Creatures extends Component {
 }
 
 export default Creatures;
-
-
