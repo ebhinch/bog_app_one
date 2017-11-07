@@ -80,8 +80,8 @@ class SingleCreature extends Component {
         return (
             <div>
 
-                <h1>{this.state.creature.name}</h1>
-                <h3>{this.state.creature.description}</h3>
+                <h1>Name: {this.state.creature.name}</h1>
+                <h3>About Me: {this.state.creature.description}</h3>
                 <button onClick={this.toggleUpdateCreatureInfo}>Update Creature Details</button>
 
                 {this.state.showUpdateCreature ? <UpdateCreature name={this.state.creature.name} description={this.state.creature.description} handleChange={this.handleChange} handleSubmit={this.handleSubmit} toggleUpdateCreatureInfo={this.toggleUpdateCreatureInfo} /> : null}
