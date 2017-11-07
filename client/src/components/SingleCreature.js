@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from "axios"
 import UpdateCreature from "./UpdateCreature"
+import { Redirect } from 'react-router-dom'
+
 
 class SingleCreature extends Component {
     state = {
@@ -8,7 +10,8 @@ class SingleCreature extends Component {
             name: "",
             description: ""
         },
-        showUpdateCreature: false
+        showUpdateCreature: false,
+        redirectToCreatures: false
     }
 
     componentWillMount() {
@@ -23,6 +26,10 @@ class SingleCreature extends Component {
 
     toggleUpdateCreatureInfo = () => {
         this.setState({ showUpdateCreature: !this.state.showUpdateCreature })
+    }
+
+    toggleShowCreatureList = () => {
+        this.setState({redirectToCreatures: true})
     }
 
     handleChange = (event) => {
@@ -50,8 +57,26 @@ class SingleCreature extends Component {
         }
     }
 
+    deleteCreature = async (event) => {
+        try {
+            event.preventDefault()
+            const creatureId = this.props.match.params.id
+            await axios.delete(`/api/creatures/${creatureId}`)
+            this.toggleShowCreatureList()
+      
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     render() {
+
+        if (this.state.redirectToCreatures) {
+            return (<Redirect to= {"/"} />)
+        }
+
+
         return (
             <div>
 
@@ -60,6 +85,10 @@ class SingleCreature extends Component {
                 <button onClick={this.toggleUpdateCreatureInfo}>Update Creature Details</button>
 
                 {this.state.showUpdateCreature ? <UpdateCreature name={this.state.creature.name} description={this.state.creature.description} handleChange={this.handleChange} handleSubmit={this.handleSubmit} toggleUpdateCreatureInfo={this.toggleUpdateCreatureInfo} /> : null}
+
+                <div>
+                    <button onClick={this.deleteCreature}>Delete {this.state.creature.name}</button>
+                </div>
 
             </div>
         );
